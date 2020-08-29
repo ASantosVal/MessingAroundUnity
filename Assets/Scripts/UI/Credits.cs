@@ -4,7 +4,13 @@ public class Credits : MonoBehaviour
 {
     public void Quit()
     {
-        Debug.Log("QUIT");
-        Application.Quit();
+        if (UnityEditor.EditorApplication.isPlaying == true)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 }
