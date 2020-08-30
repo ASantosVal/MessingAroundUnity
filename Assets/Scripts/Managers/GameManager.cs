@@ -3,21 +3,31 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-
-
 	public float restartDelay = 1f;
 
 	GameObject completeLevelUI;
+	LocalSceneManager customSceneManager;
 	bool gameHasEnded = false;
 
 	void Awake()
 	{
-		GameObject gameManagerObject = FindInActiveObjectByName("LevelComplete"); //TODO can't find disabled objects with GameObject.Find();
+		GameObject gameManagerObject = FindInActiveObjectByName("LevelComplete"); //can't find disabled objects with GameObject.Find();
 		if (gameManagerObject == null)
 		{
 			throw new Exception("No LevelComplete GameObject found on the scene.");
 		}
 		this.completeLevelUI = gameManagerObject;
+		GameObject sceneManagerObject = GameObject.Find("SceneManager");
+		if (sceneManagerObject == null)
+		{
+			throw new Exception("No SceneManager GameObject found on the scene.");
+		}
+		LocalSceneManager sceneManager = sceneManagerObject.GetComponent<LocalSceneManager>();
+		if (sceneManager == null)
+		{
+			throw new Exception("No LocalSceneManager component found on SceneManager GameObject.");
+		}
+		this.customSceneManager = sceneManager;
 	}
 
 	public void CompleteLevel ()
@@ -37,7 +47,7 @@ public class GameManager : MonoBehaviour {
 
 	void Restart ()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		customSceneManager.ReloadScene();
 	}
 
 	GameObject FindInActiveObjectByName(string name)

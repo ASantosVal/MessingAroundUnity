@@ -12,7 +12,6 @@ public class EndTrigger : MonoBehaviour {
 		{
 			throw new Exception("No GameManager GameObject found on the scene.");
 		}
-
 		GameManager gameManager = gameManagerObject.GetComponent<GameManager>();
 		if (gameManager == null)
 		{

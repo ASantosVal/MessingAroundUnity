@@ -9,6 +9,23 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
 
     public GameObject PauseMenuUi;
+    LocalSceneManager customSceneManager;
+
+    void Awake()
+    {
+        GameObject sceneManagerObject = GameObject.Find("SceneManager");
+        if (sceneManagerObject == null)
+        {
+            throw new Exception("No SceneManager GameObject found on the scene.");
+        }
+
+        LocalSceneManager sceneManager = sceneManagerObject.GetComponent<LocalSceneManager>();
+        if (sceneManager == null)
+        {
+            throw new Exception("No LocalSceneManager component found on SceneManager GameObject.");
+        }
+        this.customSceneManager = sceneManager;
+    }
 
     void Update()
     {
@@ -42,7 +59,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         GameIsPaused = false;
-        SceneManager.LoadScene("Menu");
+        customSceneManager.LoadMenu();
     }
 
     public void QuitGame()
